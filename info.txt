@@ -1,0 +1,12 @@
+## Create the API root folder and navigate into it
+$ mkdir go-crud-api && cd go-crud-api
+Create db and router folders
+$ mkdir db router
+Create main.go and .env file
+$ touch main.go .env
+Initialize go module
+$ go mod init example.com/go-crud-api
+Install dependencies
+$ go get -u github.com/jinzhu/gorm
+$ go get -u github.com/joho/godotenv
+$ go get -u github.com/google/uuid
