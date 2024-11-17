@@ -19,16 +19,13 @@ This is a simple example of a CRUD (Create, Read, Update, Delete) API for managi
 - Simple JSON-based API.
 
 ## Getting Started
-
 Follow these instructions to set up and run the project on your local machine.
 
 ## Prerequisites
-
 - [Go](https://golang.org/dl/) (version 1.16 or higher)
 - [PostgreSQL](https://www.postgresql.org/download/)
 
 ## Installation
-
 1. **Clone the repository:**
 
    ```sh
