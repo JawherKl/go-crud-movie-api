@@ -79,7 +79,6 @@ DELETE /movies/{id}
 
 ## Environment Variables
 The application uses the following environment variables for configuration:
-
 DB_HOST: The database host (default: localhost)
 DB_PORT: The database port (default: 5432)
 DB_USER: The database user
