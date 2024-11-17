@@ -1,9 +1,7 @@
 # Go CRUD Movies API Example
-
 This is a simple example of a CRUD (Create, Read, Update, Delete) API for managing movies, built using Go and GORM (Go Object Relational Mapper).
 
 ## Table of Contents
-
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
