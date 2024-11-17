@@ -15,7 +15,6 @@ This is a simple example of a CRUD (Create, Read, Update, Delete) API for managi
 - [License](#license)
 
 ## Features
-
 - Create, Read, Update, and Delete movies.
 - Uses PostgreSQL as the database.
 - Environment variable configuration for database connection.
