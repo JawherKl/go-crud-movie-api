@@ -50,6 +50,30 @@ func login(ctx *gin.Context) {
 	}
 }
 
+func RegisterUserRoutes(router *gin.Engine, userRepository repositories.UserRepository) {
+    router.GET("/user/:id", func(c *gin.Context) {
+        id := c.Param("id")
+
+        // Convert the id from string to uint
+        userID, err := strconv.ParseUint(id, 10, 32) // Parse to uint
+        if err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+            return
+        }
+
+        // Convert to uint
+        user, err := userRepository.GetUserByID(uint(userID))
+        if err != nil {
+            c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+            return
+        }
+
+        c.JSON(http.StatusOK, gin.H{"user": user})
+    })
+
+    // Add other routes like register, update, delete...
+}
+
 func postMovie(ctx *gin.Context) {
 	var movie repositories.Movie // Updated reference
 	if err := ctx.ShouldBindJSON(&movie); err != nil {

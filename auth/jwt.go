@@ -8,6 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"os"
 	"fmt"
+    "golang.org/x/crypto/bcrypt"
 )
 
 var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
@@ -77,4 +78,19 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Set("userID", claims.Issuer)
 		c.Next()
 	}
+}
+
+// HashPassword hashes the plain password
+func HashPassword(password string) (string, error) {
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+    if err != nil {
+        return "", err
+    }
+    return string(hashedPassword), nil
+}
+
+// CheckPasswordHash checks if the given password matches the hashed password
+func CheckPasswordHash(password, hashedPassword string) bool {
+    err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+    return err == nil
 }
