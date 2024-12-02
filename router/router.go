@@ -3,18 +3,51 @@ package router
 import (
 	"net/http"
 	"example.com/go-crud-api/db"
-	"example.com/go-crud-api/repositories" // Updated import
-	"github.com/gin-gonic/gin"
+	"example.com/go-crud-api/repositories"
+	"example.com/go-crud-api/auth"
+    "github.com/gin-gonic/gin"
+	"strconv"
 )
 
 func InitRouter() *gin.Engine {
 	r := gin.Default()
-	r.GET("/movies", getMovies)
-	r.GET("/movies/:id", getMovie)
-	r.POST("/movies", postMovie)
-	r.PUT("/movies/:id", updateMovie)
-	r.DELETE("/movies/:id", deleteMovie)
+
+	// Public Routes
+	r.POST("/login", login)
+
+	// Protected Routes with rate limiting
+	r.GET("/movies", auth.AuthMiddleware(), getMovies)
+	r.GET("/movies/:id", auth.AuthMiddleware(), getMovie)
+	r.POST("/movies", auth.AuthMiddleware(), postMovie)
+	r.PUT("/movies/:id", auth.AuthMiddleware(), updateMovie)
+	r.DELETE("/movies/:id", auth.AuthMiddleware(), deleteMovie)
+
 	return r
+}
+
+func login(ctx *gin.Context) {
+	// Example login function
+	var credentials struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	if err := ctx.ShouldBindJSON(&credentials); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
+
+	// Here, authenticate the user (e.g., check in the database)
+	if credentials.Username == "admin" && credentials.Password == "password" {
+		token, err := auth.GenerateToken("123") // Assuming 123 is the user ID
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{"token": token})
+	} else {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+	}
 }
 
 func postMovie(ctx *gin.Context) {
@@ -32,7 +65,16 @@ func postMovie(ctx *gin.Context) {
 }
 
 func getMovies(ctx *gin.Context) {
-	res, err := db.MovieRepo.FindAll()
+	page := ctx.DefaultQuery("page", "1")
+	pageSize := ctx.DefaultQuery("page_size", "10")
+	filter := ctx.DefaultQuery("filter", "")
+
+	// Convert page and pageSize to integers
+	pageInt, _ := strconv.Atoi(page)
+	pageSizeInt, _ := strconv.Atoi(pageSize)
+
+	// Fetch movies from DB with pagination and filtering
+	res, err := db.MovieRepo.FindWithPagination(pageInt, pageSizeInt, filter)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
