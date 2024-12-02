@@ -17,6 +17,7 @@ type MovieRepository interface {
 	Create(movie *Movie) (*Movie, error)
 	FindByID(id string) (*Movie, error)
 	FindAll() ([]*Movie, error)
+	FindWithPagination(page, pageSize int, filter string) ([]*Movie, error)
 	Update(movie *Movie) (*Movie, error)
 	Delete(id string) error
 }
@@ -48,8 +49,25 @@ func (r *GormMovieRepository) FindByID(id string) (*Movie, error) {
 }
 
 func (r *GormMovieRepository) FindAll() ([]*Movie, error) {
+    var movies []*Movie
+    res := r.db.Find(&movies)
+    if res.Error != nil {
+        return nil, errors.New("no movies found")
+    }
+    return movies, nil
+}
+
+func (r *GormMovieRepository) FindWithPagination(page, pageSize int, filter string) ([]*Movie, error) {
 	var movies []*Movie
-	res := r.db.Find(&movies)
+	offset := (page - 1) * pageSize
+	query := r.db.Offset(offset).Limit(pageSize)
+
+	// Filter by movie name or description
+	if filter != "" {
+		query = query.Where("name LIKE ? OR description LIKE ?", "%"+filter+"%", "%"+filter+"%")
+	}
+
+	res := query.Find(&movies)
 	if res.Error != nil {
 		return nil, errors.New("no movies found")
 	}
