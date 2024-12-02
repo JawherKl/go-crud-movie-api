@@ -2,8 +2,8 @@ package router
 
 import (
 	"net/http"
-  
-	db "example.com/go-crud-api/db"
+	"example.com/go-crud-api/db"
+	"example.com/go-crud-api/repositories" // Updated import
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,95 +18,60 @@ func InitRouter() *gin.Engine {
 }
 
 func postMovie(ctx *gin.Context) {
-	var movie db.Movie
-	err := ctx.Bind(&movie)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+	var movie repositories.Movie // Updated reference
+	if err := ctx.ShouldBindJSON(&movie); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	res, err := db.CreateMovie(&movie)
+	res, err := db.MovieRepo.Create(&movie)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{
-		"movie": res,
-	})
- }
+	ctx.JSON(http.StatusCreated, res)
+}
 
- func getMovies(ctx *gin.Context) {
-	res, err := db.GetMovies()
+func getMovies(ctx *gin.Context) {
+	res, err := db.MovieRepo.FindAll()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"movies": res,
-	})
- }
-  
- func getMovie(ctx *gin.Context) {
-	id := ctx.Param("id")
-	res, err := db.GetMovie(id)
-	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"movie": res,
-	})
- }
+	ctx.JSON(http.StatusOK, res)
+}
 
- func updateMovie(ctx *gin.Context) {
-	var updatedMovie db.Movie
-	err := ctx.Bind(&updatedMovie)
+func getMovie(ctx *gin.Context) {
+	id := ctx.Param("id")
+	res, err := db.MovieRepo.FindByID(id)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func updateMovie(ctx *gin.Context) {
+	var movie repositories.Movie // Updated reference
+	if err := ctx.ShouldBindJSON(&movie); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	id := ctx.Param("id")
-	dbMovie, err := db.GetMovie(id)
+	movie.ID = id
+	res, err := db.MovieRepo.Update(&movie)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	dbMovie.Name = updatedMovie.Name
-	dbMovie.Description = updatedMovie.Description
-  
-	res, err := db.UpdateMovie(dbMovie)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"task": res,
-	})
- }
- 
- func deleteMovie(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, res)
+}
+
+func deleteMovie(ctx *gin.Context) {
 	id := ctx.Param("id")
-	err := db.DeleteMovie(id)
+	err := db.MovieRepo.Delete(id)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "task deleted successfully",
-	})
- }
+	ctx.JSON(http.StatusOK, gin.H{"message": "movie deleted successfully"})
+}
