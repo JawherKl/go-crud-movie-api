@@ -188,3 +188,6 @@ Contributions are welcome! Feel free to fork the repository, make changes, and s
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/JawherKl/go-crud-movie-api.svg?variant=adaptive)](https://starchart.cc/JawherKl/go-crud-movie-api)
