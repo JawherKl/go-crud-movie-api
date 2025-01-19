@@ -12,7 +12,6 @@ import (
 )
 
 var MovieRepo repositories.MovieRepository
-
 func InitPostgresDB() {
 	err := godotenv.Load(".env")
 	if err != nil {
