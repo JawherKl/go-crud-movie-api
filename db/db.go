@@ -31,12 +31,10 @@ func InitPostgresDB() {
 			os.Getenv("DB_PASSWORD"),
 		)
 	}
-
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	db.AutoMigrate(&repositories.Movie{})
 	MovieRepo = repositories.NewGormMovieRepository(db)
 }
