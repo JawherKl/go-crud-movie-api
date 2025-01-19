@@ -12,7 +12,6 @@ import (
 )
 
 var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
-
 // GenerateToken generates a JWT token for the given user ID
 func GenerateToken(userID string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour) // Token expires in 24 hours
