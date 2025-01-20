@@ -5,7 +5,7 @@
 ## Table of Contents
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
+- [🛠 Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
