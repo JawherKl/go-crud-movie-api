@@ -5,7 +5,7 @@
 ## Table of Contents
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [🛠 Prerequisites](#prerequisites)
+- [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
@@ -26,7 +26,7 @@
 ## Getting Started
 Follow these instructions to set up and run the project on your local machine.
 
-## 🛠 Prerequisites
+## Prerequisites
 - [Go](https://golang.org/dl/) (version 1.16 or higher)
 - [PostgreSQL](https://www.postgresql.org/download/)
 - [Swagger](https://swagger.io/tools/swagger-ui/) for API documentation (optional)
