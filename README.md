@@ -2,7 +2,7 @@
 
 **A modern and robust CRUD (Create, Read, Update, Delete) API for managing movies, built with Go and GORM, featuring JWT authentication, rate limiting, and more.**
 
-## 📋 Table of Contents
+## Table of Contents
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
