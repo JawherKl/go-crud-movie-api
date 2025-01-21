@@ -17,8 +17,8 @@ func InitRouter() *gin.Engine {
 	r.POST("/login", login)
 
 	// Protected Routes with rate limiting
-	//r.GET("/movies", auth.AuthMiddleware(), getMovies)
-	r.GET("/movies", func(c *gin.Context) {
+	r.GET("/movies", auth.AuthMiddleware(), getMovies)
+	r.GET("/omdb_movies", func(c *gin.Context) {
         query := c.Query("query")
         movies, err := omdb.FetchMovies(query)
         if err != nil {
