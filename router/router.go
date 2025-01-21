@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"example.com/go-crud-api/db"
 	"example.com/go-crud-api/repositories"
+    "example.com/go-crud-api/omdb"
 	"example.com/go-crud-api/auth"
     "github.com/gin-gonic/gin"
 	"strconv"
@@ -16,7 +17,16 @@ func InitRouter() *gin.Engine {
 	r.POST("/login", login)
 
 	// Protected Routes with rate limiting
-	r.GET("/movies", auth.AuthMiddleware(), getMovies)
+	//r.GET("/movies", auth.AuthMiddleware(), getMovies)
+	r.GET("/movies", func(c *gin.Context) {
+        query := c.Query("query")
+        movies, err := omdb.FetchMovies(query)
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            return
+        }
+        c.JSON(http.StatusOK, movies)
+    })
 	r.GET("/movies/:id", auth.AuthMiddleware(), getMovie)
 	r.POST("/movies", auth.AuthMiddleware(), postMovie)
 	r.PUT("/movies/:id", auth.AuthMiddleware(), updateMovie)
