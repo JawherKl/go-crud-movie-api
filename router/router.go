@@ -26,7 +26,7 @@ func InitRouter() *gin.Engine {
             return
         }
         c.JSON(http.StatusOK, movies)
-    })
+    	})
 	r.GET("/movies/:id", auth.AuthMiddleware(), getMovie)
 	r.POST("/movies", auth.AuthMiddleware(), postMovie)
 	r.PUT("/movies/:id", auth.AuthMiddleware(), updateMovie)
