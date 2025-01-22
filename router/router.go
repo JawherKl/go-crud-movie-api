@@ -80,8 +80,6 @@ func RegisterUserRoutes(router *gin.Engine, userRepository repositories.UserRepo
 
         c.JSON(http.StatusOK, gin.H{"user": user})
     })
-
-    // Add other routes like register, update, delete...
 }
 
 func postMovie(ctx *gin.Context) {
