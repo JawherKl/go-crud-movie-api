@@ -19,14 +19,50 @@ func InitRouter() *gin.Engine {
 	// Protected Routes with rate limiting
 	r.GET("/movies", auth.AuthMiddleware(), getMovies)
 	r.GET("/omdb_movies", func(c *gin.Context) {
-        query := c.Query("query")
-        movies, err := omdb.FetchMovies(query)
-        if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-            return
-        }
-        c.JSON(http.StatusOK, movies)
-    	})
+		query := c.Query("query")
+		omdbMovies, err := omdb.FetchMovies(query)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	
+		// Convert and store the fetched movies in the database
+		for _, omdbMovie := range omdbMovies {
+			movie := repositories.Movie{
+				Title:      omdbMovie.Title,
+				Year:       omdbMovie.Year,
+				Rated:      omdbMovie.Rated,
+				Released:   omdbMovie.Released,
+				Runtime:    omdbMovie.Runtime,
+				Genre:      omdbMovie.Genre,
+				Director:   omdbMovie.Director,
+				Writer:     omdbMovie.Writer,
+				Actors:     omdbMovie.Actors,
+				Plot:       omdbMovie.Plot,
+				Language:   omdbMovie.Language,
+				Country:    omdbMovie.Country,
+				Awards:     omdbMovie.Awards,
+				Poster:     omdbMovie.Poster,
+				Metascore:  omdbMovie.Metascore,
+				ImdbRating: omdbMovie.ImdbRating,
+				ImdbVotes:  omdbMovie.ImdbVotes,
+				ImdbID:     omdbMovie.ImdbID,
+				Type:       omdbMovie.Type,
+				DVD:        omdbMovie.DVD,
+				BoxOffice:  omdbMovie.BoxOffice,
+				Production: omdbMovie.Production,
+				Website:    omdbMovie.Website,
+			}
+	
+			_, err := db.MovieRepo.Create(&movie)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Error storing movie in database: " + err.Error()})
+				return
+			}
+		}
+	
+		c.JSON(http.StatusOK, omdbMovies)
+	})
 	r.GET("/movies/:id", auth.AuthMiddleware(), getMovie)
 	r.POST("/movies", auth.AuthMiddleware(), postMovie)
 	r.PUT("/movies/:id", auth.AuthMiddleware(), updateMovie)
