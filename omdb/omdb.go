@@ -8,30 +8,30 @@ import (
 )
 
 type Movie struct {
-    Title       string `json:"Title"`
-    Year        string `json:"Year"`
-    Rated       string `json:"Rated"`
-    Released    string `json:"Released"`
-    Runtime     string `json:"Runtime"`
-    Genre       string `json:"Genre"`
-    Director    string `json:"Director"`
-    Writer      string `json:"Writer"`
-    Actors      string `json:"Actors"`
-    Plot        string `json:"Plot"`
-    Language    string `json:"Language"`
-    Country     string `json:"Country"`
-    Awards      string `json:"Awards"`
-    Poster      string `json:"Poster"`
-    Metascore   string `json:"Metascore"`
-    ImdbRating  string `json:"imdbRating"`
-    ImdbVotes   string `json:"imdbVotes"`
-    ImdbID      string `json:"imdbID"`
-    Type        string `json:"Type"`
-    DVD         string `json:"DVD"`
-    BoxOffice   string `json:"BoxOffice"`
-    Production  string `json:"Production"`
-    Website     string `json:"Website"`
-    Response    string `json:"Response"`
+    ID          string `json:"id" gorm:"primarykey"`
+    Title       string `json:"title"`
+    Year        string `json:"year"`
+    Rated       string `json:"rated"`
+    Released    string `json:"released"`
+    Runtime     string `json:"runtime"`
+    Genre       string `json:"genre"`
+    Director    string `json:"director"`
+    Writer      string `json:"writer"`
+    Actors      string `json:"actors"`
+    Plot        string `json:"plot"`
+    Language    string `json:"language"`
+    Country     string `json:"country"`
+    Awards      string `json:"awards"`
+    Poster      string `json:"poster"`
+    Metascore   string `json:"metascore"`
+    ImdbRating  string `json:"imdbrating"`
+    ImdbVotes   string `json:"imdvotes"`
+    ImdbID      string `json:"imdbid"`
+    Type        string `json:"type"`
+    DVD         string `json:"dvd"`
+    BoxOffice   string `json:"boxoffice"`
+    Production  string `json:"production"`
+    Website     string `json:"website"`
 }
 
 func FetchMovies(query string) ([]Movie, error) {
