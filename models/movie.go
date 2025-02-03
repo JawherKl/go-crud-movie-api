@@ -3,7 +3,7 @@ package models
 import "gorm.io/gorm"
 
 type Movie struct {
-    gorm.Model
+    	gorm.Model
 	ID          string `json:"id" gorm:"primarykey"`
 	Title       string `json:"title"`
     Year        string `json:"year"`
