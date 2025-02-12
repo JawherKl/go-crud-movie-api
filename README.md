@@ -2,6 +2,12 @@
 
 **A modern and robust CRUD (Create, Read, Update, Delete) API for managing movies, built with Go and GORM, featuring JWT authentication, rate limiting, and more.**
 
+![Repository Size](https://img.shields.io/github/repo-size/JawherKl/go-crud-movie-api)
+![Last Commit](https://img.shields.io/github/last-commit/JawherKl/go-crud-movie-api)
+![Issues](https://img.shields.io/github/issues-raw/JawherKl/go-crud-movie-api)
+![Forks](https://img.shields.io/github/forks/JawherKl/go-crud-movie-api)
+![Stars](https://img.shields.io/github/stars/JawherKl/go-crud-movie-api)
+
 ![go-crud-movie-api](https://github.com/JawherKl/go-crud-movie-api/blob/main/go_crud.png)
 
 ## 📋 Table of Contents
