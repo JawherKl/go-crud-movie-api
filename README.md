@@ -197,5 +197,12 @@ Contributions are welcome! Feel free to fork the repository, make changes, and s
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ⭐ Stargazers over time
-[![Stargazers over time](https://starchart.cc/JawherKl/go-crud-movie-api.svg?variant=adaptive)](https://starchart.cc/JawherKl/go-crud-movie-api)
+## ⭐ Star History
+
+<a href="https://www.star-history.com/?repos=jawherkl%2Fgo-crud-movie-api&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jawherkl/go-crud-movie-api&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jawherkl/go-crud-movie-api&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jawherkl/go-crud-movie-api&type=date&legend=top-left" />
+ </picture>
+</a>
